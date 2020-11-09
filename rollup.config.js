@@ -3,6 +3,7 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import autoExternal from 'rollup-plugin-auto-external';
+import analyze from 'rollup-plugin-analyzer';
 import pkg from './package.json';
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -54,6 +55,7 @@ export default (async () => ({
     resolve(),
     commonjs(),
     autoExternal(),
-    isProduction && (await import('rollup-plugin-terser')).terser()
+    isProduction && (await import('rollup-plugin-terser')).terser(),
+    analyze({summaryOnly: true}),
   ],
 }))();
